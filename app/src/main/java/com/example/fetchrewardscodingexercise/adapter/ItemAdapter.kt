@@ -71,8 +71,10 @@ class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            TYPE_SECTION -> SectionViewHolder(SectionHeaderBinding.inflate(inflater, parent, false))
-            TYPE_ITEM -> ItemViewHolder(ItemBinding.inflate(inflater, parent, false))
+            TYPE_SECTION -> SectionViewHolder(SectionHeaderBinding
+                .inflate(inflater, parent, false))
+            TYPE_ITEM -> ItemViewHolder(ItemBinding
+                .inflate(inflater, parent, false))
             else -> throw IllegalArgumentException("Unsupported view type: $viewType")
         }
     }

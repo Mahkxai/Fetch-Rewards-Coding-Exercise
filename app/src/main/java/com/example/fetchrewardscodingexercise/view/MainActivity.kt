@@ -18,7 +18,7 @@ import com.example.fetchrewardscodingexercise.viewmodel.ItemViewModel
 const val TAG = "MainActivity"
 
 /**
- * Main activity that displays a fetched list of items with sticky headers.
+ * Main activity that displays the fetched list of items with sticky headers.
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: ItemViewModel

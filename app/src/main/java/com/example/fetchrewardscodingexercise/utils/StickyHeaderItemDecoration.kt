@@ -12,7 +12,7 @@ import com.example.fetchrewardscodingexercise.databinding.SectionHeaderBinding
  *      Section headers. (listId), each of which sticks to the top of the RecyclerView's visible
  *      region until it's pushed off-screen by the next section's header.
  *
- * @property adapter The adapter from which this decoration will pull data to determine header positioning.
+ * @property adapter Source Adapter from which this decoration will determine header positioning.
  */
 class StickyHeaderItemDecoration(private val adapter: ItemAdapter) : RecyclerView.ItemDecoration() {
 
