@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#FFF2F2F2</color>
+
+    <!-- A pleasing orange color -->
+    <color name="colorPrimary">#FFA726</color>
+    <color name="colorPrimaryDark">#E48800</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+
+    <!-- You can adjust these if you have a secondary color in mind -->
+    <color name="colorSecondary">#300D38</color>
+    <color name="colorSecondaryDark">#1E0823</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
 </resources>
