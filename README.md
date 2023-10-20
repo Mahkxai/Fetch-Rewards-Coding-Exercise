@@ -11,9 +11,10 @@ An Android application developed in Kotlin that fetches and displays items from 
 - [x] Sort items first by "listId" and then by "name".
 - [x] Filter out items with blank or null "name".
 
-## Additional Features:
+## Additional Features and Assumptions:
 - **Shimmer Loading Effect**: Integrated Facebook's shimmer effect for a polished loading experience when fetching items.
 - **Sticky Headers**: Added sticky headers for group titles (listId) for an intuitive navigation.
+- Items are sorted primarily by "listId" and secondarily by the numerical value of the "name" field for intuitive ordering.
 
 ## Build
 - **Built With**: Android Studio Dolphin | 2021.3.1 Patch 1
