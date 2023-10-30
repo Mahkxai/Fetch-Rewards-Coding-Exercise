@@ -1,4 +1,4 @@
-package com.example.fetchrewardscodingexercise2
+package com.example.fetchrewardscodingexercise
 
 import org.junit.Test
 
