@@ -32,6 +32,22 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    /*flavorDimensions "version"
+    productFlavors {
+        version1 {
+            dimension "version"
+            applicationId "com.example.fetchrewardscodingexercise"
+            versionName "1.0"
+        }
+
+        version2 {
+            dimension "version"
+            applicationId "com.example.fetchrewardscodingexercise2"
+            versionName "2.0"
+        }
+    }*/
+
 }
 
 dependencies {

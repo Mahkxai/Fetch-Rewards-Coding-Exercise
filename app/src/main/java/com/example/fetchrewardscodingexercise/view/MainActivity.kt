@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnFetchItems.setOnClickListener {
             it.visibility = View.GONE
             startShimmerEffect()
-
             binding.shimmerViewContainer.post {
                 viewModel.fetchItems()
             }
@@ -143,4 +142,5 @@ class MainActivity : AppCompatActivity() {
             visibility = View.GONE
         }
     }
+
 }
