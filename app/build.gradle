@@ -33,21 +33,6 @@ android {
         jvmTarget = '1.8'
     }
 
-    /*flavorDimensions "version"
-    productFlavors {
-        version1 {
-            dimension "version"
-            applicationId "com.example.fetchrewardscodingexercise"
-            versionName "1.0"
-        }
-
-        version2 {
-            dimension "version"
-            applicationId "com.example.fetchrewardscodingexercise2"
-            versionName "2.0"
-        }
-    }*/
-
 }
 
 dependencies {
@@ -78,4 +63,6 @@ dependencies {
     // Shimmer Effect for Loading Items
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    // SwipeRefresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

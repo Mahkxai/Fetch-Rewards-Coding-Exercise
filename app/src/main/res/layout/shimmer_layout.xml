@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shimmer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
+    android:orientation="vertical">
+
+    <!-- ListID Chips -->
+    <com.google.android.material.chip.ChipGroup
+        app:singleSelection="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal">
+
+        <include layout="@layout/shimmer_chip"/>
+        <include layout="@layout/shimmer_chip"/>
+        <include layout="@layout/shimmer_chip"/>
+        <include layout="@layout/shimmer_chip"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/tvItemsCout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:text="..."
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/chipGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Items x20 -->
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+    <include layout="@layout/item" />
+
+</LinearLayout>

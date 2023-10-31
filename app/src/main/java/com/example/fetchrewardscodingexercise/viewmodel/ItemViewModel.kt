@@ -16,6 +16,9 @@ class ItemViewModel : ViewModel() {
     // LiveData to hold fetched items.
     val itemsLiveData = MutableLiveData<List<Item>>()
 
+    val listIdsLiveData = MutableLiveData<List<Int>>()
+    private var allItems: MutableList<Item> = mutableListOf()
+
     // LiveData to indicate loading status.
     val loadingLiveData = MutableLiveData<Boolean>()
 
@@ -40,14 +43,24 @@ class ItemViewModel : ViewModel() {
             }
 
             if (response.isSuccessful && response.body() != null) {
-                val filteredAndSortedItems = processItems(response.body()!!)
-                itemsLiveData.postValue(filteredAndSortedItems)
+                allItems.clear()    // Clear previous items
+                allItems.addAll(response.body()!!)
+                val uniqueListIds = allItems.map { it.listId }.distinct().sorted()
+                listIdsLiveData.postValue(uniqueListIds)
             } else {
                 handleException("Response not successful")
             }
 
             setLoading(false)
         }
+    }
+
+    /**
+     * Filter items by listId
+     */
+    fun filterItemsByListId(listId: Int) {
+        val itemsForListId = processItems(allItems).filter { it.listId == listId }
+        itemsLiveData.postValue(itemsForListId)
     }
 
     /**

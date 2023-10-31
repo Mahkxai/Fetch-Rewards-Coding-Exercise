@@ -1,19 +1,28 @@
 package com.example.fetchrewardscodingexercise.view
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import android.view.WindowInsetsController
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fetchrewardscodingexercise.adapter.ItemAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.fetchrewardscodingexercise.R
 import com.example.fetchrewardscodingexercise.databinding.ActivityMainBinding
-import com.example.fetchrewardscodingexercise.utils.StickyHeaderItemDecoration
+import com.example.fetchrewardscodingexercise.adapter.ItemAdapter
 import com.example.fetchrewardscodingexercise.viewmodel.ItemViewModel
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 
 const val TAG = "MainActivity"
 
@@ -56,7 +65,6 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() = binding.rvItems.apply {
         adapter = itemAdapter
         layoutManager = LinearLayoutManager(this@MainActivity)
-        addItemDecoration(StickyHeaderItemDecoration(itemAdapter))
     }
 
     /**
@@ -82,22 +90,89 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Observes data from the ViewModel and updates the UI accordingly.
+     * +Setup Swipe to Refresh
      */
     private fun observeData() {
-        viewModel.itemsLiveData.observe(this) {
+        val swipeRefresh = findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+
+        viewModel.listIdsLiveData.observe(this) { listIds ->
+            setupSwipeToRefresh()
             stopShimmerEffect()
             binding.tvInitials.visibility = View.VISIBLE
             binding.tvFooter.visibility = View.GONE
-            itemAdapter.items = it
+            setupListIDs(listIds)
+        }
+
+        viewModel.itemsLiveData.observe(this) { listItems ->
+            val tvItemsCount = findViewById<TextView>(R.id.tvItemsCout)
+
+            // Make #items display in bold
+            val listSize = listItems.size.toString()
+            val numResults = "$listSize results"
+            val boldNumResults = SpannableString(numResults)
+            boldNumResults.setSpan(
+                StyleSpan(Typeface.BOLD),
+                0,
+                listSize.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            tvItemsCount.text = boldNumResults
+
+            itemAdapter.items = listItems
         }
 
         viewModel.loadingLiveData.observe(this) {
-            if (!it) stopShimmerEffect()
+            if (!it) {
+                stopShimmerEffect()
+                swipeRefresh.isRefreshing = false
+            }
         }
 
         viewModel.errorLiveData.observe(this) { e ->
             handleDataFetchError(e)
         }
+    }
+
+    /**
+     * Categorize and setup chips to display appropriate list items according to listId
+     */
+    private fun setupListIDs(listIds: List<Int>) {
+        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup)
+        chipGroup.removeAllViews() // Remove old chips
+
+        for (listId in listIds) {
+            val chip = Chip(this)
+            val drawable = ChipDrawable.createFromAttributes(
+                this,
+                null,
+                0, R.style.CustomChipStyle
+            )
+            chip.setChipDrawable(drawable)
+            chip.textSize = 10f
+            chip.text = "List $listId"
+            chip.isClickable = true
+            chip.isCheckable = true
+            chip.isCheckedIconVisible = false
+            chipGroup.addView(chip)
+
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    chip.chipStrokeWidth = 5f
+                    viewModel.filterItemsByListId(listId)
+                } else {
+                    chip.chipStrokeWidth = 1f
+                }
+            }
+
+            chip.setOnClickListener {
+                if (!chip.isChecked) {
+                    chip.isChecked = true
+                }
+            }
+        }
+        // Set the default items display for the first list ID
+        (chipGroup.getChildAt(0) as Chip).isChecked = true
+        viewModel.filterItemsByListId(listIds[0])
     }
 
     /**
@@ -108,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         stopShimmerEffect()
         resetUI()
         Log.e(TAG, error)
-        Toast.makeText(this, "An error occurred: $error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Data Fetch Failed!", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -142,5 +217,14 @@ class MainActivity : AppCompatActivity() {
             visibility = View.GONE
         }
     }
+
+    // Setup SwipeToRefresh to fetch data
+    private fun setupSwipeToRefresh() {
+        val swipeRefresh = findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        swipeRefresh.setOnRefreshListener {
+            viewModel.fetchItems()
+        }
+    }
+
 
 }
